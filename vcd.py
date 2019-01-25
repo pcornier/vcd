@@ -109,38 +109,38 @@ class VCD():
 
   def parse(self, source):
 
-		  ## VCD grammar
+    ## VCD grammar
 
-		  self.waves = {}
-		  self.max_time = 0
-		  self.active_time = 0
+    self.waves = {}
+    self.max_time = 0
+    self.active_time = 0
 
-		  end = Keyword('$end')
-		  date = ('$date' + OneOrMore(Word(alphanums + ':,'))('date') + end).setParseAction(self.setDate)
-		  version = ('$version' + SkipTo(end) + end).setParseAction(self.setVersion)
-		  comment = '$comment' + SkipTo(end) + end
-		  tscale = ('$timescale' + Word(nums)('timescale') + oneOf('fs ps ns us ms s') + end).setParseAction(self.setTimescale)
-		  open_scope = '$scope'
-		  scope_type = oneOf('begin fork function module task')
-		  scope_name = Word(alphanums + '_')('name')
-		  scope = (open_scope + scope_type + scope_name + end).setParseAction(self.openScope)
-		  open_var = '$var'
-		  var_type = oneOf('event integer parameter real realtime reg supply0 supply1 time tri triand trior trireg tri0 tri1 wand wire wor')('type')
-		  var_size = Word(nums)('size')
-		  var_id = Word(printables)('id')
-		  var_name = Word(alphanums + '_[]:')('name')
-		  variable = (open_var + var_type + var_size + var_id + var_name + end).setParseAction(self.setVariable)
-		  close_scope = (Literal('$upscope') + end).setParseAction(self.closeScope)
-		  definitions = OneOrMore(scope ^ variable ^ close_scope) + Literal('$enddefinitions').setParseAction(lambda: logging.info('end definitions')) + end
-		  typid = Optional(oneOf('b B r R'))('type')
-		  bval = Combine(OneOrMore(oneOf('0 1 z x Z X'))('value')  + Optional(' ') + SkipTo(White())('id')) + White()
-		  sval = Combine(Word('s')('type') + Word(alphanums+'_')('value')) + Word(printables)('id')
-		  sim_val = ((typid + bval) | sval).setParseAction(self.setValue)
-		  dumps = oneOf('$dumpvars $dumpall $dumpoff $dumpon') + OneOrMore(sim_val) + end
-		  time = Combine('#' + Word(nums)('time')).setParseAction(self.setTime)
-		  vcd = OneOrMore(date ^ version ^ tscale ^ comment) + definitions + OneOrMore(dumps ^ time ^ sim_val)
-		  vcd.parseString(source, parseAll=True)
-		  
+    end = Keyword('$end')
+    date = ('$date' + OneOrMore(Word(alphanums + ':,'))('date') + end).setParseAction(self.setDate)
+    version = ('$version' + SkipTo(end) + end).setParseAction(self.setVersion)
+    comment = '$comment' + SkipTo(end) + end
+    tscale = ('$timescale' + Word(nums)('timescale') + oneOf('fs ps ns us ms s') + end).setParseAction(self.setTimescale)
+    open_scope = '$scope'
+    scope_type = oneOf('begin fork function module task')
+    scope_name = Word(alphanums + '_')('name')
+    scope = (open_scope + scope_type + scope_name + end).setParseAction(self.openScope)
+    open_var = '$var'
+    var_type = oneOf('event integer parameter real realtime reg supply0 supply1 time tri triand trior trireg tri0 tri1 wand wire wor')('type')
+    var_size = Word(nums)('size')
+    var_id = Word(printables)('id')
+    var_name = Word(alphanums + '_[]:')('name')
+    variable = (open_var + var_type + var_size + var_id + var_name + end).setParseAction(self.setVariable)
+    close_scope = (Literal('$upscope') + end).setParseAction(self.closeScope)
+    definitions = OneOrMore(scope ^ variable ^ close_scope) + Literal('$enddefinitions').setParseAction(lambda: logging.info('end definitions')) + end
+    typid = Optional(oneOf('b B r R'))('type')
+    bval = Combine(OneOrMore(oneOf('0 1 z x Z X'))('value')  + Optional(' ') + SkipTo(White())('id')) + White()
+    sval = Combine(Word('s')('type') + Word(alphanums+'_')('value')) + Word(printables)('id')
+    sim_val = ((typid + bval) | sval).setParseAction(self.setValue)
+    dumps = oneOf('$dumpvars $dumpall $dumpoff $dumpon') + OneOrMore(sim_val) + end
+    time = Combine('#' + Word(nums)('time')).setParseAction(self.setTime)
+    vcd = OneOrMore(date ^ version ^ tscale ^ comment) + definitions + OneOrMore(dumps ^ time ^ sim_val)
+    vcd.parseString(source, parseAll=True)
+    
 
   def listAllSignals(self, asList = False):
     slist = []

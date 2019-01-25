@@ -51,7 +51,7 @@ reloaded
 $
 ```
 
-Created for my personal use for debugging MyHDL in Ternux while driving.
+Created for my personal use for debugging MyHDL in Termux while driving.
 
 Commands are:
 - a: add a specific signal

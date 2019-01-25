@@ -3,7 +3,7 @@ import logging
 import sys, re, readline, pickle
 from pyparsing import *
 
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 def main(argv):
 

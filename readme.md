@@ -5,7 +5,7 @@ $ python vcd.py
 > l dump.vcd
 loaded
 >
-> s
+> ss
 Signals:
 sim:my8bit:rom0:clk
 sim:my8bit:bus0:rom
@@ -52,3 +52,22 @@ $
 ```
 
 Created for my personal use for debugging MyHDL in Ternux while driving.
+
+Commands are:
+- a: add a specific signal
+- aa: add all signals
+- da: delete all signals
+- f: time + 5
+- lc: load configuration
+- p: print signals
+- q: quit
+- r: reload vcd file
+- r start end: set time range
+- s: list signals
+- sc: save configuration
+- ss: list signals (listing format)
+
+
+
+
+
